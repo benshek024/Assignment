@@ -9,10 +9,10 @@ import Foundation
 import MapKit
 
 class Site: NSObject, MKAnnotation {
-    let title: String?
-    let location: String?
-    let siteType: String?
-    let coordinate: CLLocationCoordinate2D
+    let title: String?  // Site title
+    let location: String?   // Site location
+    let siteType: String?   // Site type (e.g., Theme park, statue, museum)
+    let coordinate: CLLocationCoordinate2D  // Site location coordinate
     
     init (
         title: String?,
