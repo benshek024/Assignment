@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mapView.delegate = self
         mapView.centerToLocation(hkCoord)
         
         // Set the region for camera
@@ -70,6 +71,31 @@ private extension MKMapView {
             latitudinalMeters: regionRadius,
             longitudinalMeters: regionRadius)
         setRegion(coordRegion, animated: true)
+    }
+}
+
+extension ViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // Check if annotation is a Site object
+        guard let annotation = annotation as? Site else {
+            return nil
+        }
+        
+        let identifier = "site"
+        var view: MKMarkerAnnotationView
+        
+        // Check invisable annotations and reuse it
+        if let dequeueView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+            dequeueView.annotation = annotation
+            view = dequeueView
+        } else {
+            // If visale then apply  title and subtitle based on their properties
+            view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.canShowCallout = true
+            view.calloutOffset = CGPoint(x:-5, y:5)
+            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        return view
     }
 }
 
