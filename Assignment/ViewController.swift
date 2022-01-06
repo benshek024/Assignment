@@ -52,6 +52,10 @@ class ViewController: UIViewController {
                                   animated: true)
         mapView.setCameraZoomRange(zoomRange, animated: true)
         
+        // Call function to load geojson data and show them on the map
+        loadGeoJson()
+        mapView.addAnnotations(sites)
+        
         /*
         // Big Buddha data
         let bigBuddha = Site(title: "The Big Buddha",
@@ -77,9 +81,29 @@ class ViewController: UIViewController {
     }
     
     func loadGeoJson() {
-        <#function body#>
+        
+        // Try to read map.geojson
+        guard
+            let file = Bundle.main.url(forResource: "map", withExtension: "geojson"),
+            let siteData = try? Data(contentsOf: file)
+        else {
+            return
+        }
+        
+        do {
+            // Obtain features data in geojson
+            let features = try MKGeoJSONDecoder()
+                .decode(siteData).compactMap { $0 as? MKGeoJSONFeature}
+            
+            // Transform features into Site objects
+            let featuresObj = features.compactMap(Site.init)
+            // Append to sites array
+            sites.append(contentsOf: featuresObj)
+        } catch {
+            // Print the error if catch it
+            print("Unexpected Error: \(error)")
+        }
     }
-    
 }
 
 // Center current view to desired region

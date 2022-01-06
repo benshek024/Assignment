@@ -26,9 +26,9 @@ class Site: NSObject, MKAnnotation {
         }
         
         // Set the properties to related fields
-        title = sites[""] as? String
-        location = sites[""] as? String
-        siteType = sites[""] as? String
+        title = sites["title"] as? String
+        location = sites["location"] as? String
+        siteType = sites["siteType"] as? String
         coordinate = point.coordinate
         
         super.init()
