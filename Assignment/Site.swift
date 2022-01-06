@@ -14,6 +14,9 @@ class Site: NSObject, MKAnnotation {
     let siteType: String?   // Site type (e.g., Theme park, statue, museum)
     let coordinate: CLLocationCoordinate2D  // Site location coordinate
     
+    // Annotations customisation
+    
+    
     // Read the GeoJson file
     init? (feature: MKGeoJSONFeature) {
         guard

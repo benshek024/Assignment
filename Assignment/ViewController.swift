@@ -9,13 +9,12 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
 
-    //let map = MKMapView()
+    let locationManager = CLLocationManager()
     
     // Hong Kong coordinate
     let hkCoord = CLLocation(latitude: 22.3193, longitude: 114.1694)
-    //let mapBoundary = MKCoordinateRegion()
     
     // Map filters
     let amPark = MKPointOfInterestCategory.amusementPark
@@ -31,10 +30,35 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Tracking user location
         mapView.delegate = self
+        mapView.showsUserLocation = true
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         
-        // Center the map to Hong Kong everytime the app is started
-        mapView.centerToLocation(hkCoord)
+        // If the location services in enabled on device, do the following things
+        if CLLocationManager.locationServicesEnabled() {
+            // Checking if user granted access to location tracking
+            switch locationManager.authorizationStatus {
+            case .notDetermined, .restricted, .denied:
+                // If not, center the map to default coordinate
+                print("No access")
+                // Center the map to Hong Kong everytime the app is started
+                mapView.centerToLocation(hkCoord)
+            case .authorizedAlways, .authorizedWhenInUse:
+                // If yes, start the tracking process
+                print("Have access")
+                locationManager.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager.startUpdatingLocation()
+            @unknown default:
+                break
+            }
+        } else {
+            // Print error if not enabled
+            print("Location services are not enabled")
+            
+        }
         
         // Filter maps with included parameters
         mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [amPark, aquarium, beach, museum, nPark]))
@@ -56,30 +80,9 @@ class ViewController: UIViewController {
         loadGeoJson()
         mapView.addAnnotations(sites)
         
-        /*
-        // Big Buddha data
-        let bigBuddha = Site(title: "The Big Buddha",
-                             location: "Ngong Ping, Lantau Island",
-                             siteType: "Large Bronze Statue",
-                             coordinate: CLLocationCoordinate2D(latitude: 22.254106, longitude: 113.905144))
-        mapView.addAnnotation(bigBuddha)
-        
-        // Disneyland data
-        let disneyland = Site(title: "Hong Kong Disneyland",
-                              location: "Penny's Bay, Lantau Island",
-                              siteType: "Theme Park",
-                              coordinate: CLLocationCoordinate2D(latitude: 22.313333, longitude: 114.043333))
-        mapView.addAnnotation(disneyland)
-        
-        // Ocean Park data
-        let oceanpark = Site(title: "Ocean Park",
-                             location: "Wong Chuk Hank, Hong Kong Island",
-                             siteType: "Theme Park",
-                             coordinate: CLLocationCoordinate2D(latitude: 22.245861, longitude: 114.175917))
-        mapView.addAnnotation(oceanpark)
-        */
     }
     
+    // Load geojson data
     func loadGeoJson() {
         
         // Try to read map.geojson
@@ -103,6 +106,14 @@ class ViewController: UIViewController {
             // Print the error if catch it
             print("Unexpected Error: \(error)")
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
+        let location = locations.first!
+        let coordRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+        mapView.setRegion(coordRegion, animated: true)
+        locationManager.stopUpdatingLocation()
     }
 }
 
@@ -135,7 +146,7 @@ extension ViewController: MKMapViewDelegate {
             dequeueView.annotation = annotation
             view = dequeueView
         } else {
-            // If visale then apply  title and subtitle based on their properties
+            // If visale then apply title and subtitle based on their properties
             view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x:-5, y:5)
