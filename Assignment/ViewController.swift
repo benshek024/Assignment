@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     let museum = MKPointOfInterestCategory.museum
     let nPark = MKPointOfInterestCategory.nationalPark
     
+    private var sites: [Site] = []
+    
     @IBOutlet private var mapView: MKMapView!
     
     override func viewDidLoad() {
@@ -50,6 +52,7 @@ class ViewController: UIViewController {
                                   animated: true)
         mapView.setCameraZoomRange(zoomRange, animated: true)
         
+        /*
         // Big Buddha data
         let bigBuddha = Site(title: "The Big Buddha",
                              location: "Ngong Ping, Lantau Island",
@@ -70,8 +73,12 @@ class ViewController: UIViewController {
                              siteType: "Theme Park",
                              coordinate: CLLocationCoordinate2D(latitude: 22.245861, longitude: 114.175917))
         mapView.addAnnotation(oceanpark)
+        */
     }
     
+    func loadGeoJson() {
+        <#function body#>
+    }
     
 }
 

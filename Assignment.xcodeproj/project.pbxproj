@@ -17,6 +17,7 @@
 		465CBB9C27838F2200C0CF7C /* AssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465CBB9B27838F2200C0CF7C /* AssignmentTests.swift */; };
 		465CBBA727838F2200C0CF7C /* AssignmentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465CBBA627838F2200C0CF7C /* AssignmentUITests.swift */; };
 		465CBBB52785FD5E00C0CF7C /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465CBBB42785FD5E00C0CF7C /* Site.swift */; };
+		465CBBB7278772FB00C0CF7C /* map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 465CBBB6278772FB00C0CF7C /* map.geojson */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		465CBBA627838F2200C0CF7C /* AssignmentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentUITests.swift; sourceTree = "<group>"; };
 		465CBBA827838F2200C0CF7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		465CBBB42785FD5E00C0CF7C /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
+		465CBBB6278772FB00C0CF7C /* map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = map.geojson; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				465CBB9227838F2200C0CF7C /* Info.plist */,
 				465CBB8A27838F2100C0CF7C /* Assignment.xcdatamodeld */,
 				465CBBB42785FD5E00C0CF7C /* Site.swift */,
+				465CBBB6278772FB00C0CF7C /* map.geojson */,
 			);
 			path = Assignment;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				465CBBB7278772FB00C0CF7C /* map.geojson in Resources */,
 				465CBB9127838F2200C0CF7C /* LaunchScreen.storyboard in Resources */,
 				465CBB8E27838F2200C0CF7C /* Assets.xcassets in Resources */,
 				465CBB8927838F2100C0CF7C /* Main.storyboard in Resources */,

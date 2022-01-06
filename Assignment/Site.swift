@@ -14,16 +14,22 @@ class Site: NSObject, MKAnnotation {
     let siteType: String?   // Site type (e.g., Theme park, statue, museum)
     let coordinate: CLLocationCoordinate2D  // Site location coordinate
     
-    init (
-        title: String?,
-        location: String?,
-        siteType: String?,
-        coordinate: CLLocationCoordinate2D
-    ) {
-        self.title = title
-        self.location = location
-        self.siteType = siteType
-        self.coordinate = coordinate
+    // Read the GeoJson file
+    init? (feature: MKGeoJSONFeature) {
+        guard
+            let point = feature.geometry.first as? MKPointAnnotation,
+            let siteData = feature.properties,
+            let json = try? JSONSerialization.jsonObject(with: siteData),
+            let sites = json as? [String: Any]
+        else {
+            return nil
+        }
+        
+        // Set the properties to related fields
+        title = sites[""] as? String
+        location = sites[""] as? String
+        siteType = sites[""] as? String
+        coordinate = point.coordinate
         
         super.init()
     }
