@@ -11,9 +11,18 @@ import CoreLocation
 
 class ViewController: UIViewController {
 
-    let map = MKMapView()
+    //let map = MKMapView()
+    
+    // Hong Kong coordinate
     let hkCoord = CLLocation(latitude: 22.3193, longitude: 114.1694)
-    let mapBoundary = MKCoordinateRegion()
+    //let mapBoundary = MKCoordinateRegion()
+    
+    // Map filters
+    let amPark = MKPointOfInterestCategory.amusementPark
+    let aquarium = MKPointOfInterestCategory.aquarium
+    let beach = MKPointOfInterestCategory.beach
+    let museum = MKPointOfInterestCategory.museum
+    let nPark = MKPointOfInterestCategory.nationalPark
     
     @IBOutlet private var mapView: MKMapView!
     
@@ -21,7 +30,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         mapView.delegate = self
+        
+        // Center the map to Hong Kong everytime the app is started
         mapView.centerToLocation(hkCoord)
+        
+        // Filter maps with included parameters
+        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [amPark, aquarium, beach, museum, nPark]))
         
         // Set the region for camera
         let region = MKCoordinateRegion(center: hkCoord.coordinate,
@@ -74,6 +88,7 @@ private extension MKMapView {
     }
 }
 
+// Showing callout bubble when annotations on the map are clicked
 extension ViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // Check if annotation is a Site object
