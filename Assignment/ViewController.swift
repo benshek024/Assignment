@@ -29,20 +29,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet private var mapView: MKMapView!
     
-    fileprivate func setCameraContrains() {
-        // Set the region for camera
-        let region = MKCoordinateRegion(center: hkCoord.coordinate,
-                                        latitudinalMeters: 55000,
-                                        longitudinalMeters: 70000)
-        
-        // Set camera zoom out range
-        let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 200000)
-        
-        // Set camera constrains
-        mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region),
-                                  animated: true)
-        mapView.setCameraZoomRange(zoomRange, animated: true)
-    }
+    let detailBTN = UIButton(type: .detailDisclosure)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +79,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    func setCameraContrains() {
+        // Set the region for camera
+        let region = MKCoordinateRegion(center: hkCoord.coordinate,
+                                        latitudinalMeters: 55000,
+                                        longitudinalMeters: 70000)
+        
+        // Set camera zoom out range
+        let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 200000)
+        
+        // Set camera constrains
+        mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region),
+                                  animated: true)
+        mapView.setCameraZoomRange(zoomRange, animated: true)
+    }
+    
     // Center the current map view to user
     func centerViewToUser() {
         if let location = locationManager.location?.coordinate {
@@ -132,6 +135,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         mapView.setRegion(coordRegion, animated: true)
         locationManager.stopUpdatingLocation()
     }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let detailvc = storyboard?.instantiateViewController(identifier: "detail_vc") as? DetailViewController
+        else {
+            return
+        }
+        present(detailvc, animated: true)
+    }
 }
 
 // Center current view to desired region
@@ -168,6 +179,7 @@ extension ViewController: MKMapViewDelegate {
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x:-5, y:5)
             view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            view.rightCalloutAccessoryView = detailBTN
         }
         return view
     }
