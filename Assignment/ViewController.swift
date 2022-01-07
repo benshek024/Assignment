@@ -23,46 +23,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let museum = MKPointOfInterestCategory.museum
     let nPark = MKPointOfInterestCategory.nationalPark
     
+    let mapMeters: Double = 10000
+    
     private var sites: [Site] = []
     
     @IBOutlet private var mapView: MKMapView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Tracking user location
-        mapView.delegate = self
-        mapView.showsUserLocation = true
-        locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
-        
-        // If the location services in enabled on device, do the following things
-        if CLLocationManager.locationServicesEnabled() {
-            // Checking if user granted access to location tracking
-            switch locationManager.authorizationStatus {
-            case .notDetermined, .restricted, .denied:
-                // If not, center the map to default coordinate
-                print("No access")
-                // Center the map to Hong Kong everytime the app is started
-                mapView.centerToLocation(hkCoord)
-            case .authorizedAlways, .authorizedWhenInUse:
-                // If yes, start the tracking process
-                print("Have access")
-                locationManager.delegate = self
-                locationManager.desiredAccuracy = kCLLocationAccuracyBest
-                locationManager.startUpdatingLocation()
-            @unknown default:
-                break
-            }
-        } else {
-            // Print error if not enabled
-            print("Location services are not enabled")
-            
-        }
-        
-        // Filter maps with included parameters
-        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [amPark, aquarium, beach, museum, nPark]))
-        
+    fileprivate func setCameraContrains() {
         // Set the region for camera
         let region = MKCoordinateRegion(center: hkCoord.coordinate,
                                         latitudinalMeters: 55000,
@@ -75,11 +42,61 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region),
                                   animated: true)
         mapView.setCameraZoomRange(zoomRange, animated: true)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Tracking user location
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        
+        checkLocationAuthorization()
+        setCameraContrains()
+        
+        // Apply map filter with included parameters
+        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [amPark, aquarium, beach, museum, nPark]))
         
         // Call function to load geojson data and show them on the map
         loadGeoJson()
         mapView.addAnnotations(sites)
         
+    }
+    
+    func checkLocationAuthorization() {
+        // If the location services in enabled on device, do the following things
+        if CLLocationManager.locationServicesEnabled() {
+            // Checking if user granted access to location tracking
+            switch locationManager.authorizationStatus {
+            case .notDetermined, .restricted, .denied:
+                // If not, center the map to default coordinate
+                print("No access")
+                // Center the map to Hong Kong as default if no access
+                mapView.centerToLocation(hkCoord)
+            case .authorizedAlways, .authorizedWhenInUse:
+                // If yes, start the tracking process and center the view to user
+                print("Have access")
+                locationManager.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager.startUpdatingLocation()
+                centerViewToUser()
+            @unknown default:
+                break
+            }
+        } else {
+            // Print error if not enabled
+            print("Location services are not enabled")
+        }
+    }
+    
+    // Center the current map view to user
+    func centerViewToUser() {
+        if let location = locationManager.location?.coordinate {
+            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: mapMeters, longitudinalMeters: mapMeters)
+            mapView.setRegion(region, animated: true)
+        }
     }
     
     // Load geojson data
