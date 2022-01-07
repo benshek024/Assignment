@@ -8,12 +8,6 @@
 import Foundation
 import MapKit
 
-struct SiteDetail {
-    let title: String
-    let location: String
-    let siteType: String
-}
-
 class Site: NSObject, MKAnnotation {
     let title: String?  // Site title
     let location: String?   // Site location
@@ -39,8 +33,6 @@ class Site: NSObject, MKAnnotation {
         location = sites["location"] as? String
         siteType = sites["siteType"] as? String
         coordinate = point.coordinate
-        
-        
         
         super.init()
     }

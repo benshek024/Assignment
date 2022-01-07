@@ -13,6 +13,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     let locationManager = CLLocationManager()
     
+    var tString = "Title"
+    var lString = "Location"
+    var sString = "Site Type"
     // Hong Kong coordinate
     let hkCoord = CLLocation(latitude: 22.3193, longitude: 114.1694)
     
@@ -26,6 +29,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let mapMeters: Double = 10000
     
     private var sites: [Site] = []
+    var selectedAnnotation: Site?
     
     @IBOutlet private var mapView: MKMapView!
     
@@ -136,12 +140,40 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
     
+    // Assign annotation data to variables when selected
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("Annotation selected")
+        
+        if let annotation = view.annotation as? Site {
+            // Set title, location and site type to correspondent variables
+            tString = annotation.title!
+            lString = annotation.location!
+            sString = annotation.siteType!
+            
+            // Debug
+            print("Title is: \(tString)")
+            print("Location is: \(lString)" )
+            print("Site Type is: \(sString)")
+        }
+    }
+    
+    // Assign data to detail view variables to display it when clicked right callout button
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        // Create an instance of DetailViewController
         guard let detailvc = storyboard?.instantiateViewController(identifier: "detail_vc") as? DetailViewController
         else {
             return
         }
+        
+        // Assign variables
+        detailvc.tString = tString
+        detailvc.lString = lString
+        detailvc.sString = sString
+        
+        // Show detail view for site
         present(detailvc, animated: true)
+        
     }
 }
 
