@@ -16,6 +16,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var tString = "Title"
     var lString = "Location"
     var sString = "Site Type"
+    
     // Hong Kong coordinate
     let hkCoord = CLLocation(latitude: 22.3193, longitude: 114.1694)
     
@@ -38,7 +39,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         checkLocationAuthorization()
     }
     
+    @IBAction func favouriteButton(_ sender: Any) {
+        guard let favouritevc = storyboard?.instantiateViewController(identifier: "favourite_sites") as? FavouriteViewController
+        else {
+            return
+        }
+        
+        present(favouritevc, animated: true)
+    }
     
+    // Right side button of the map annotation callout
     let detailBTN = UIButton(type: .detailDisclosure)
     
     

@@ -19,6 +19,7 @@
 		465CBBB52785FD5E00C0CF7C /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465CBBB42785FD5E00C0CF7C /* Site.swift */; };
 		465CBBB7278772FB00C0CF7C /* map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 465CBBB6278772FB00C0CF7C /* map.geojson */; };
 		465CBBBD2788A60400C0CF7C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465CBBBC2788A60400C0CF7C /* DetailViewController.swift */; };
+		465CBBBF278B7BA400C0CF7C /* FavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465CBBBE278B7BA400C0CF7C /* FavouriteViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		465CBBB42785FD5E00C0CF7C /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		465CBBB6278772FB00C0CF7C /* map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = map.geojson; sourceTree = "<group>"; };
 		465CBBBC2788A60400C0CF7C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		465CBBBE278B7BA400C0CF7C /* FavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				465CBB8127838F2100C0CF7C /* AppDelegate.swift */,
 				465CBB8327838F2100C0CF7C /* SceneDelegate.swift */,
 				465CBB8527838F2100C0CF7C /* ViewController.swift */,
+				465CBBBE278B7BA400C0CF7C /* FavouriteViewController.swift */,
 				465CBB8727838F2100C0CF7C /* Main.storyboard */,
 				465CBBBC2788A60400C0CF7C /* DetailViewController.swift */,
 				465CBB8D27838F2200C0CF7C /* Assets.xcassets */,
@@ -275,6 +278,7 @@
 				465CBBB52785FD5E00C0CF7C /* Site.swift in Sources */,
 				465CBB8627838F2100C0CF7C /* ViewController.swift in Sources */,
 				465CBBBD2788A60400C0CF7C /* DetailViewController.swift in Sources */,
+				465CBBBF278B7BA400C0CF7C /* FavouriteViewController.swift in Sources */,
 				465CBB8227838F2100C0CF7C /* AppDelegate.swift in Sources */,
 				465CBB8427838F2100C0CF7C /* SceneDelegate.swift in Sources */,
 			);
