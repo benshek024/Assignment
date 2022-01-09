@@ -33,6 +33,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet private var mapView: MKMapView!
     
+    // Center current view back to user current location
+    @IBAction func centerButton(_ sender: Any) {
+        checkLocationAuthorization()
+    }
+    
+    
     let detailBTN = UIButton(type: .detailDisclosure)
     
     
