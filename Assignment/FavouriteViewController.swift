@@ -67,6 +67,20 @@ class FavouriteViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            if let site = self.sites?.remove(at: indexPath.row) {
+                managedObjectContext?.delete(site)
+                try? self.managedObjectContext?.save()
+            }
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
     func searchAndReloadTable(query: String) {
         if let managedObjectContext = self.managedObjectContext {
             let fetchRequest = NSFetchRequest<FavouriteSites>(entityName: "FavouriteSites")
