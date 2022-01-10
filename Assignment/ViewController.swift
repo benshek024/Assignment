@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -76,6 +77,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
+    // Checking location authorization from user
     func checkLocationAuthorization() {
         // If the location services in enabled on device, do the following things
         if CLLocationManager.locationServicesEnabled() {
@@ -197,7 +199,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         // Show detail view for site
         present(detailvc, animated: true)
-        
     }
 }
 
