@@ -6,12 +6,20 @@
 //
 
 import UIKit
+import CoreData
 
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var siteTypeLabel: UILabel!
+    
+    @IBAction func favouriteButton() {
+
+    }
+    
+    var lng : Double?
+    var lat : Double?
     
     var tString : String?
     var lString : String?
@@ -21,6 +29,9 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        debugPrint(lng!)
+        debugPrint(lat!)
         
         if let tText = tString {
             self.titleLabel.text = tText

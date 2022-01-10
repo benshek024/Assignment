@@ -13,6 +13,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     let locationManager = CLLocationManager()
     
+    var lng = 22.3193
+    var lat = 114.1694
+    
     var tString = "Title"
     var lString = "Location"
     var sString = "Site Type"
@@ -161,15 +164,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         print("Annotation selected")
         
         if let annotation = view.annotation as? Site {
-            // Set title, location and site type to correspondent variables
+            // Set title, location, site type, longitude and latitude to correspondent variables
             tString = annotation.title!
             lString = annotation.location!
             sString = annotation.siteType!
-            
+            lng = annotation.coordinate.longitude
+            lat = annotation.coordinate.latitude
             // Debug
             print("Title is: \(tString)")
             print("Location is: \(lString)" )
             print("Site Type is: \(sString)")
+            print("Longtitude is: \(lng)")
+            print("Latitude is: \(lat)")
         }
     }
     
@@ -186,6 +192,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         detailvc.tString = tString
         detailvc.lString = lString
         detailvc.sString = sString
+        detailvc.lat = lat
+        detailvc.lng = lng
         
         // Show detail view for site
         present(detailvc, animated: true)
