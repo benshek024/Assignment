@@ -16,8 +16,10 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var siteTypeLabel: UILabel!
     
+    // Save site to favourite
     @IBAction func favouriteButton() {
         if let context = self.managedObjectContext {
+            // Add site name, site longitude and latitude as new object
             if let newFavSite = NSEntityDescription.insertNewObject(forEntityName: "FavouriteSites", into: context) as? FavouriteSites {
                 newFavSite.siteName = self.titleLabel.text
                 newFavSite.siteLongtitude = self.lng!
@@ -28,6 +30,7 @@ class DetailViewController: UIViewController {
             } catch {
                 print("Fail to Save, \(error)")
             }
+            // Reload table when saved
             favVC.searchAndReloadTable(query: "")
         }
     }

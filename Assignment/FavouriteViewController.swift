@@ -10,6 +10,25 @@ import CoreData
 
 class FavouriteViewController: UITableViewController {
 
+    // Delete all record inside the table view
+    @IBAction func deleteButton() {
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let context = delegate.persistentContainer.viewContext
+        
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteSites")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        
+        // Execute the delete request and update the database
+        do {
+            try context.execute(deleteRequest)
+            try context.save()
+        } catch {
+            print("Fail to Delete")
+        }
+        // Reload the table once executed
+        searchAndReloadTable(query: "")
+    }
+    
     var sites: [FavouriteSites]?
     
     var managedObjectContext : NSManagedObjectContext? {
