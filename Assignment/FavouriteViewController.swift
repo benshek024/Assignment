@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 class FavouriteViewController: UITableViewController {
-
+    
     // Delete all record inside the table view
     @IBAction func deleteButton() {
         let delegate = UIApplication.shared.delegate as! AppDelegate

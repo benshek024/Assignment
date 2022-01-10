@@ -10,6 +10,7 @@ import CoreData
 
 class DetailViewController: UIViewController {
     
+    
     var favVC = FavouriteViewController()
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -27,6 +28,8 @@ class DetailViewController: UIViewController {
             }
             do {
                 try context.save()
+                // Merge record that already exists in favourite site view no matter how many times user has pressed Add to Favourite button
+                managedObjectContext?.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             } catch {
                 print("Fail to Save, \(error)")
             }
