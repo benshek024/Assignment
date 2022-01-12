@@ -39,6 +39,12 @@ class FavouriteViewController: UITableViewController {
         return nil
     }
     
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
+    
+    var name : String?
+    var lat : Double?
+    var lng : Double?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,6 +85,45 @@ class FavouriteViewController: UITableViewController {
                 try? self.managedObjectContext?.save()
             }
             self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let currentCell = self.tableView.cellForRow(at: indexPath)
+        let selectedSiteTitle = currentCell?.textLabel!.text
+        
+        let key = selectedSiteTitle
+        let context = appDelegate.persistentContainer.viewContext
+        let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "FavouriteSites")
+        let predicate = NSPredicate(format: "siteName == %@", key!)
+        request.predicate = predicate
+        
+        // Retrieve name, latitude and longtitude from selected cell
+        do {
+            let result = try context.fetch(request) as! [NSManagedObject]
+            
+            for item in result {
+                if let site = (item as AnyObject).value(forKey: "siteName") as? String {
+                    name = site
+                }
+                if let sitelat = (item as AnyObject).value(forKey: "siteLatitude") as? Double {
+                    lat = sitelat
+                }
+                if let sitelng = (item as AnyObject).value(forKey: "siteLongtitude") as? Double {
+                    lng = sitelng
+                }
+            }
+            
+            // Debug
+            print(name!)
+            print(lat!)
+            print(lng!)
+            
+        } catch let error as NSError {
+            print(error)
         }
     }
     
