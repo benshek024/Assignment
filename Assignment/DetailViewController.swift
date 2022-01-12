@@ -30,6 +30,7 @@ class DetailViewController: UIViewController {
                 try context.save()
                 // Merge record that already exists in favourite site view no matter how many times user has pressed Add to Favourite button
                 managedObjectContext?.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                dismiss(animated: true)
             } catch {
                 print("Fail to Save, \(error)")
             }

@@ -22,6 +22,7 @@ class FavouriteViewController: UITableViewController {
         do {
             try context.execute(deleteRequest)
             try context.save()
+            dismiss(animated: true)
         } catch {
             print("Fail to Delete")
         }
