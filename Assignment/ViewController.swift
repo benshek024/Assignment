@@ -17,7 +17,7 @@ struct favourite {
 }
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
-
+    
     let locationManager = CLLocationManager()
     
     var lng = 114.1694
@@ -48,7 +48,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var a: Double = 0.0
     var b: Double = 0.0
     
-    @IBOutlet private var mapView: MKMapView!
+    @IBOutlet fileprivate var mapView: MKMapView!
     
     // Center current view back to user current location
     @IBAction func centerButton(_ sender: Any) {
