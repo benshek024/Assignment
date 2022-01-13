@@ -7,8 +7,12 @@
 
 import UIKit
 import CoreData
+import MapKit
 
 class FavouriteViewController: UITableViewController {
+    
+    var mainvc = ViewController()
+    var mapView = MKMapView()
     
     // Delete all record inside the table view
     @IBAction func deleteButton() {
@@ -39,8 +43,6 @@ class FavouriteViewController: UITableViewController {
         return nil
     }
     
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
-    
     var name : String?
     var lat : Double?
     var lng : Double?
@@ -48,6 +50,14 @@ class FavouriteViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(dismissVC))
+        gesture.direction = .down
+        view.addGestureRecognizer(gesture)
+    }
+    
+    @objc
+    private func dismissVC() {
+        self.dismiss(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,15 +126,14 @@ class FavouriteViewController: UITableViewController {
                     lng = sitelng
                 }
             }
-            
-            // Debug
-            print(name!)
-            print(lat!)
-            print(lng!)
-            
         } catch let error as NSError {
             print(error)
         }
+        
+        favourite.latitude = lat!
+        favourite.longitude = lng!
+        favourite.isFavClicked = true
+        self.dismiss(animated: true)
     }
     
     func searchAndReloadTable(query: String) {

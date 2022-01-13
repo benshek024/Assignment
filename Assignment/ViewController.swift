@@ -10,12 +10,21 @@ import MapKit
 import CoreLocation
 import CoreData
 
+struct favourite {
+    static var isFavClicked = false
+    static var longitude: Double?
+    static var latitude: Double?
+}
+
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
     let locationManager = CLLocationManager()
     
-    var lng = 22.3193
-    var lat = 114.1694
+    var lng = 114.1694
+    var lat = 22.3193
+    
+    var latitude: Double?
+    var longitude: Double?
     
     var tString = "Title"
     var lString = "Location"
@@ -35,6 +44,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     private var sites: [Site] = []
     var selectedAnnotation: Site?
+    var siteCoord: CLLocationCoordinate2D!
+    var a: Double = 0.0
+    var b: Double = 0.0
     
     @IBOutlet private var mapView: MKMapView!
     
@@ -48,13 +60,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         else {
             return
         }
-        
+        favouritevc.modalPresentationStyle = .fullScreen
         present(favouritevc, animated: true)
     }
     
     // Right side button of the map annotation callout
     let detailBTN = UIButton(type: .detailDisclosure)
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +85,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // Call function to load geojson data and show them on the map
         loadGeoJson()
         mapView.addAnnotations(sites)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
+        // Call function when isFavClicked is true
+        if favourite.isFavClicked == true {
+            favouriteClicked()
+        } else {
+            return
+        }
+    }
+    
+    // Zoom current view to selected favourite site
+    func favouriteClicked() {
+        if let siteLat = favourite.latitude { a = siteLat }
+        if let siteLng = favourite.longitude { b = siteLng }
+        let siteCoord = CLLocationCoordinate2D(latitude: a, longitude: b)
+
+        mapView.zoomToLocation(siteCoord)
+        favourite.isFavClicked = false
     }
     
     // Checking location authorization from user
@@ -203,7 +234,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 }
 
 // Center current view to desired region
-private extension MKMapView {
+public extension MKMapView {
     func centerToLocation(
         _ location: CLLocation,
         regionRadius: CLLocationDistance = 1000) {
@@ -212,6 +243,11 @@ private extension MKMapView {
             latitudinalMeters: regionRadius,
             longitudinalMeters: regionRadius)
         setRegion(coordRegion, animated: true)
+    }
+    
+    func zoomToLocation(_ location: CLLocationCoordinate2D, latMeters: CLLocationDistance = 100, lngMeters: CLLocationDistance = 100) {
+        let region = MKCoordinateRegion(center: location, latitudinalMeters: latMeters, longitudinalMeters: lngMeters)
+        setRegion(region, animated: true)
     }
 }
 
