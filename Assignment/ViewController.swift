@@ -70,6 +70,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Show Compass
+        mapView.showsCompass = false
+        let compass = MKCompassButton(mapView: mapView)
+        compass.compassVisibility = .visible
+        mapView.addSubview(compass)
+        compass.translatesAutoresizingMaskIntoConstraints = false
+        compass.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -25).isActive = true
+        compass.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 125).isActive = true
+        
         // Tracking user location
         mapView.delegate = self
         mapView.showsUserLocation = true
